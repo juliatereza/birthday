@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thirty, Flirty & Disco 💃✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff6b9d;
+    --hot-pink: #ff2d78;
+    --gold: #ffd700;
+    --purple: #b44dff;
+    --deep-purple: #1a0a2e;
+    --disco-blue: #00d4ff;
+    --warm-white: #fff5f7;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--deep-purple);
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Disco Ball Canvas ── */
+  #disco-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* ── Sparkle particles ── */
+  .sparkle {
+    position: fixed; width: 4px; height: 4px; border-radius: 50%;
+    pointer-events: none; z-index: 1;
+    animation: sparkle-float linear infinite;
+  }
+  @keyframes sparkle-float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative; z-index: 2;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 40px 20px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(180,77,255,.2) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(255,107,157,.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(0,212,255,.1) 0%, transparent 50%);
+  }
+  .disco-ball-emoji {
+    font-size: 80px; margin-bottom: 16px;
+    animation: disco-spin 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(255,215,0,.4));
+  }
+  @keyframes disco-spin {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.05); }
+  }
+  .hero-pre {
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: clamp(48px, 10vw, 96px); line-height: 1;
+    background: linear-gradient(135deg, var(--pink), var(--gold), var(--purple), var(--disco-blue));
+    background-size: 300% 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: gradient-shift 6s ease infinite;
+    margin-bottom: 8px;
+  }
+  .hero h2 {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-weight: 400; font-size: clamp(20px, 4vw, 36px);
+    color: var(--gold); margin-bottom: 32px;
+    text-shadow: 0 0 20px rgba(255,215,0,.3);
+  }
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .hero-date {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,.08); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.12); border-radius: 40px;
+    padding: 12px 28px; font-size: 16px; font-weight: 500;
+    letter-spacing: 1px; color: var(--warm-white);
+  }
+  .hero-date span { color: var(--gold); }
+  .scroll-hint {
+    margin-top: 48px; font-size: 24px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* ── Itinerary Section ── */
+  .itinerary {
+    position: relative; z-index: 2;
+    max-width: 680px; margin: 0 auto;
+    padding: 80px 20px 60px;
+  }
+  .section-title { text-align: center; margin-bottom: 56px; }
+  .section-pre {
+    font-size: 13px; font-weight: 500; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--pink); margin-bottom: 8px;
+  }
+  .section-title h2 {
+    font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(255,215,0,.2);
+  }
+  .section-line {
+    width: 60px; height: 2px; margin: 16px auto 0;
+    background: linear-gradient(90deg, var(--pink), var(--gold), var(--purple));
+    border-radius: 2px;
+  }
+
+  /* Day blocks */
+  .day-block { margin-bottom: 48px; }
+  .day-header {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .day-label {
+    font-family: 'Playfair Display', serif; font-size: 26px;
+    font-weight: 700; color: #fff;
+  }
+  .day-date {
+    font-size: 14px; color: var(--pink); font-weight: 500;
+    letter-spacing: .5px;
+  }
+
+  /* Event cards */
+  .event-card {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; padding: 24px;
+    margin-bottom: 12px;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+  }
+  .event-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,107,157,.25);
+    box-shadow: 0 8px 32px rgba(255,107,157,.1);
+  }
+  .event-card.highlight {
+    background: linear-gradient(135deg, rgba(255,45,120,.08), rgba(180,77,255,.08));
+    border-color: rgba(255,215,0,.2);
+    box-shadow: 0 0 40px rgba(255,215,0,.06);
+  }
+  .event-card.highlight:hover {
+    border-color: rgba(255,215,0,.4);
+    box-shadow: 0 8px 40px rgba(255,215,0,.12);
+  }
+  .event-time {
+    font-family: 'Playfair Display', serif; font-size: 20px;
+    font-weight: 700; color: var(--gold); min-width: 60px;
+    padding-top: 4px;
+  }
+  .event-body { display: flex; gap: 14px; flex: 1; }
+  .event-emoji { font-size: 32px; flex-shrink: 0; padding-top: 2px; }
+  .event-info { flex: 1; }
+  .event-name {
+    font-family: 'Playfair Display', serif; font-size: 20px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .event-venue { font-size: 14px; color: rgba(255,255,255,.55); margin-bottom: 10px; }
+  .event-tag {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    letter-spacing: .8px; text-transform: uppercase;
+    padding: 3px 12px; border-radius: 20px; margin-bottom: 10px;
+  }
+  .event-tag.voluntary {
+    background: rgba(0,212,255,.1); color: var(--disco-blue);
+    border: 1px solid rgba(0,212,255,.2);
+  }
+  .event-tag.mandatory {
+    background: rgba(255,45,120,.12); color: var(--hot-pink);
+    border: 1px solid rgba(255,45,120,.25);
+    animation: pulse-tag 2s ease-in-out infinite;
+  }
+  @keyframes pulse-tag {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,45,120,.2); }
+    50% { box-shadow: 0 0 12px 2px rgba(255,45,120,.15); }
+  }
+  .map-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 13px; font-weight: 500; color: var(--pink);
+    text-decoration: none; padding: 6px 14px;
+    background: rgba(255,107,157,.08);
+    border: 1px solid rgba(255,107,157,.15);
+    border-radius: 10px; transition: all .25s;
+  }
+  .map-link:hover {
+    background: rgba(255,107,157,.15);
+    border-color: rgba(255,107,157,.3);
+    transform: translateX(2px);
+  }
+  .tbd-note {
+    font-size: 13px; color: rgba(255,255,255,.4);
+    font-style: italic; margin-top: 8px;
+  }
+
+  /* ── Footer ── */
+  .footer-section {
+    position: relative; z-index: 2;
+    text-align: center; padding: 60px 20px 80px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255,107,157,.08) 0%, transparent 60%);
+  }
+  .footer-disco {
+    font-size: 48px; margin-bottom: 16px;
+    animation: disco-spin 4s ease-in-out infinite;
+  }
+  .footer-text {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 20px; color: var(--gold); margin-bottom: 8px;
+  }
+  .footer-heart { font-size: 16px; color: var(--pink); margin-bottom: 20px; }
+  .footer-sparkles {
+    font-size: 24px; letter-spacing: 8px;
+    opacity: .6;
+  }
+
+  /* ── Splash Overlay ── */
+  .splash {
+    position: fixed; inset: 0; z-index: 9999;
+    background: radial-gradient(ellipse at 50% 40%, #2a1050 0%, #0d0618 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 20px;
+    transition: opacity .8s, visibility .8s;
+  }
+  .splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-ball {
+    font-size: 100px; margin-bottom: 24px;
+    animation: disco-spin 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 40px rgba(255,215,0,.5));
+  }
+  .splash h1 {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: clamp(36px, 8vw, 64px); line-height: 1.1;
+    background: linear-gradient(135deg, var(--pink), var(--gold), var(--purple));
+    background-size: 300% 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: gradient-shift 4s ease infinite;
+    margin-bottom: 12px;
+  }
+  .splash p {
+    font-size: 16px; color: rgba(255,255,255,.5);
+    font-style: italic; margin-bottom: 36px;
+  }
+  .start-btn {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, var(--hot-pink), var(--purple));
+    border: none; border-radius: 40px;
+    padding: 16px 48px; cursor: pointer;
+    box-shadow: 0 0 30px rgba(255,45,120,.3), 0 0 60px rgba(180,77,255,.15);
+    transition: transform .2s, box-shadow .2s;
+    letter-spacing: 1px;
+  }
+  .start-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255,45,120,.5), 0 0 80px rgba(180,77,255,.25);
+  }
+  .start-btn:active { transform: scale(.97); }
+
+  /* ── Floating Spotify Player ── */
+  .spotify-float {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .5s, visibility .5s;
+  }
+  .spotify-float.visible { opacity: 1; visibility: visible; }
+  .spotify-player {
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 40px rgba(255,107,157,.15);
+    border: 1px solid rgba(255,255,255,.1);
+    transition: transform .3s, opacity .3s;
+    transform: translateY(10px);
+  }
+  .spotify-float.visible .spotify-player {
+    transform: translateY(0);
+  }
+  .spotify-player.collapsed {
+    height: 0; opacity: 0; pointer-events: none; overflow: hidden;
+    margin: 0; border: none; box-shadow: none;
+  }
+  .spotify-toggle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #1db954, #1ed760);
+    border: 2px solid rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 22px;
+    box-shadow: 0 4px 20px rgba(29,185,84,.3);
+    transition: transform .2s, box-shadow .2s;
+    animation: pulse-spotify 2s ease-in-out infinite;
+  }
+  .spotify-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 30px rgba(29,185,84,.5);
+  }
+  @keyframes pulse-spotify {
+    0%, 100% { box-shadow: 0 4px 20px rgba(29,185,84,.3); }
+    50% { box-shadow: 0 4px 30px rgba(29,185,84,.5), 0 0 40px rgba(29,185,84,.15); }
+  }
+
+  /* ── Song Section ── */
+  .song-section {
+    position: relative; z-index: 2;
+    max-width: 680px; margin: 0 auto;
+    padding: 0 20px 60px; text-align: center;
+  }
+  .song-section .section-pre { margin-bottom: 8px; }
+  .song-section h2 {
+    font-family: 'Playfair Display', serif; font-size: 28px;
+    font-weight: 700; color: var(--gold); margin-bottom: 6px;
+    text-shadow: 0 0 20px rgba(255,215,0,.2);
+  }
+  .song-section .song-artist {
+    font-size: 15px; color: var(--pink); font-style: italic; margin-bottom: 24px;
+  }
+  .song-embed {
+    display: flex; justify-content: center;
+    border-radius: 14px; overflow: hidden;
+  }
+  .song-embed iframe {
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.3), 0 0 30px rgba(255,107,157,.08);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .event-card { flex-direction: column; gap: 8px; padding: 18px; }
+    .event-time { min-width: auto; }
+    .event-body { gap: 10px; }
+    .day-label { font-size: 22px; }
+    .music-ctrl { bottom: 16px; right: 16px; width: 46px; height: 46px; font-size: 19px; }
+    .spotify-float { bottom: 16px; right: 16px; }
+    .spotify-toggle { width: 46px; height: 46px; font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div class="splash" id="splash">
+  <div class="splash-ball">🪩</div>
+  <h1>Thirty, Flirty<br>&amp; Disco</h1>
+  <p>turn up the volume &amp; let's go</p>
+  <button class="start-btn" onclick="startParty()">💃 Start the Party 🕺</button>
+</div>
+
+<!-- Floating Spotify Player -->
+<div class="spotify-float" id="spotifyFloat">
+  <div class="spotify-player" id="spotifyPlayer">
+    <!-- Injected on Start the Party click for autoplay -->
+    <div id="spotifyEmbed"></div>
+  </div>
+  <div class="spotify-toggle" id="spotifyToggle" onclick="togglePlayer()" title="Toggle music player">
+    <span id="spotifyIcon">🎵</span>
+  </div>
+</div>
+
+<canvas id="disco-bg"></canvas>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="disco-ball-emoji">🪩</div>
+  <div class="hero-pre">You're invited to</div>
+  <h1>Thirty, Flirty<br>&amp; Disco</h1>
+  <h2>a birthday celebration ✨</h2>
+  <div class="hero-date">📅 <span>April 17 – 19, 2025</span> · Berlin</div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- Itinerary -->
+<section class="itinerary" id="itinerary">
+  <div class="section-title">
+    <div class="section-pre">The Weekend Plan</div>
+    <h2>Itinerary</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Friday -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Friday</div>
+      <div class="day-date">April 17</div>
+    </div>
+    <div class="event-card">
+      <div class="event-time">19:00</div>
+      <div class="event-body">
+        <div class="event-emoji">🎤</div>
+        <div class="event-info">
+          <div class="event-name">Karaoke Night</div>
+          <div class="event-venue">King Karaoke Berlin</div>
+          <span class="event-tag voluntary">Voluntary</span>
+          <a class="map-link" href="https://maps.app.goo.gl/kZVUfjSzCiwbm4F96" target="_blank" rel="noopener">
+            📍 Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saturday -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Saturday</div>
+      <div class="day-date">April 18</div>
+    </div>
+    <div class="event-card">
+      <div class="event-time">13:00</div>
+      <div class="event-body">
+        <div class="event-emoji">🚤</div>
+        <div class="event-info">
+          <div class="event-name">Boat Tour</div>
+          <div class="event-venue">Historische Stadtrundfahrt Friedrichstraße</div>
+          <span class="event-tag voluntary">Voluntary</span>
+          <a class="map-link" href="https://maps.app.goo.gl/7ePpPSAXu5yx2MPn6" target="_blank" rel="noopener">
+            📍 Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="event-card highlight">
+      <div class="event-time">20:30</div>
+      <div class="event-body">
+        <div class="event-emoji">🪩</div>
+        <div class="event-info">
+          <div class="event-name">Disco Party</div>
+          <div class="event-venue">Atlantik Bar</div>
+          <span class="event-tag mandatory">Mandatory</span>
+          <a class="map-link" href="https://maps.app.goo.gl/ZL6Gv2TF65ZdMDfp7" target="_blank" rel="noopener">
+            📍 Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunday -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Sunday</div>
+      <div class="day-date">April 19</div>
+    </div>
+    <div class="event-card">
+      <div class="event-time">TBD</div>
+      <div class="event-body">
+        <div class="event-emoji">🥐</div>
+        <div class="event-info">
+          <div class="event-name">Brunch</div>
+          <div class="event-venue">Location to be announced</div>
+          <span class="event-tag voluntary">Voluntary</span>
+          <div class="tbd-note">📬 More info coming soon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Theme Song -->
+<section class="song-section">
+  <div class="section-pre">🎶 The Anthem</div>
+  <h2>I Will Survive</h2>
+  <p class="song-artist">Gloria Gaynor</p>
+  <div class="song-embed">
+    <iframe src="https://open.spotify.com/embed/track/7rIovIsXE6kMn629b7kDig?utm_source=generator&theme=0&autoplay=1"
+      width="100%" height="152" frameBorder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+      style="border-radius:14px; max-width:500px;">
+    </iframe>
+  </div>
+</section>
+
+<!-- Footer -->
+<section class="footer-section">
+  <div class="footer-disco">💿</div>
+  <p class="footer-text">Save the date &amp; get your disco outfits ready</p>
+  <p class="footer-heart">Can't wait to celebrate with you 💖</p>
+  <div class="footer-sparkles">✨ 💃 🪩 💃 ✨</div>
+</section>
+
+<script>
+// ── Disco light reflections on canvas ──
+const canvas = document.getElementById('disco-bg');
+const ctx = canvas.getContext('2d');
+let W, H, lights = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight * 3;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const colors = ['#ff6b9d','#ffd700','#b44dff','#00d4ff','#ff2d78','#fff'];
+
+for (let i = 0; i < 40; i++) {
+  lights.push({
+    x: Math.random() * W, y: Math.random() * H,
+    r: Math.random() * 60 + 20,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - .5) * .4,
+    vy: (Math.random() - .5) * .3,
+    alpha: Math.random() * .08 + .02,
+    pulse: Math.random() * Math.PI * 2,
+    pulseSpeed: Math.random() * .02 + .005
+  });
+}
+
+function drawLights() {
+  ctx.clearRect(0, 0, W, H);
+  lights.forEach(l => {
+    l.x += l.vx; l.y += l.vy;
+    l.pulse += l.pulseSpeed;
+    if (l.x < -100) l.x = W + 100;
+    if (l.x > W + 100) l.x = -100;
+    if (l.y < -100) l.y = H + 100;
+    if (l.y > H + 100) l.y = -100;
+    const a = l.alpha * (.6 + .4 * Math.sin(l.pulse));
+    const g = ctx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r);
+    g.addColorStop(0, l.color.replace(')', `,${a})`).replace('rgb', 'rgba').replace('#', ''));
+    // simpler approach
+    ctx.globalAlpha = a;
+    ctx.beginPath();
+    ctx.arc(l.x, l.y, l.r, 0, Math.PI * 2);
+    ctx.fillStyle = l.color;
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(drawLights);
+}
+drawLights();
+
+// ── Floating sparkle particles ──
+function createSparkle() {
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.background = colors[Math.floor(Math.random() * colors.length)];
+  s.style.width = s.style.height = (Math.random() * 4 + 2) + 'px';
+  s.style.animationDuration = (Math.random() * 8 + 6) + 's';
+  s.style.animationDelay = (Math.random() * 4) + 's';
+  s.style.boxShadow = `0 0 ${Math.random()*6+3}px ${s.style.background}`;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 16000);
+}
+setInterval(createSparkle, 400);
+for (let i = 0; i < 15; i++) setTimeout(createSparkle, i * 200);
+
+// ── Spotify Player Controls ──
+let playerVisible = true;
+
+function startParty() {
+  document.getElementById('splash').classList.add('hidden');
+  document.getElementById('spotifyFloat').classList.add('visible');
+
+  // Inject Spotify iframe on user click so autoplay works
+  const spotifyUrl = 'https://open.spotify.com/embed/track/7rIovIsXE6kMn629b7kDig?utm_source=generator&theme=0&autoplay=1';
+  const embed = document.getElementById('spotifyEmbed');
+  embed.innerHTML = '<iframe src="' + spotifyUrl + '" width="300" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="border-radius:14px;"></iframe>';
+}
+
+function togglePlayer() {
+  const player = document.getElementById('spotifyPlayer');
+  const icon = document.getElementById('spotifyIcon');
+  playerVisible = !playerVisible;
+  if (playerVisible) {
+    player.classList.remove('collapsed');
+    icon.textContent = '🎵';
+  } else {
+    player.classList.add('collapsed');
+    icon.textContent = '🎵';
+  }
+}
+</script>
+
+</body>
+</html>
