@@ -34,14 +34,38 @@
   /* ── Sparkle particles ── */
   .sparkle {
     position: fixed; width: 4px; height: 4px; border-radius: 50%;
-    pointer-events: none; z-index: 1;
+    pointer-events: none; z-index: 9990;
     animation: sparkle-float linear infinite;
   }
   @keyframes sparkle-float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+    5% { opacity: 1; transform: translateY(90vh) rotate(60deg) scale(1); }
+    50% { opacity: 1; transform: translateY(50vh) rotate(360deg) scale(1.2); }
+    90% { opacity: .8; }
+    100% { transform: translateY(-10vh) rotate(720deg) scale(0); opacity: 0; }
+  }
+
+  /* ── Twinkling Starfield ── */
+  .star {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 9990;
+    animation: twinkle ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: .1; transform: scale(.8); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  .star.cross::before, .star.cross::after {
+    content: ''; position: absolute;
+    background: inherit; border-radius: 2px;
+  }
+  .star.cross::before {
+    width: 100%; height: 2px; top: 50%; left: 0;
+    transform: translateY(-50%);
+  }
+  .star.cross::after {
+    width: 2px; height: 100%; left: 50%; top: 0;
+    transform: translateX(-50%);
   }
 
   /* ── Hero ── */
@@ -359,19 +383,14 @@
 </head>
 <body>
 
-<!-- Splash Screen -->
-<div class="splash" id="splash">
-  <div class="splash-ball">🪩</div>
-  <h1>Thirty, Flirty<br>&amp; Disco</h1>
-  <p>turn up the volume &amp; let's go</p>
-  <button class="start-btn" onclick="startParty()">💃 Start the Party 🕺</button>
-</div>
+<!-- Splash removed - direct entry -->
 
 <!-- Floating Spotify Player -->
-<div class="spotify-float" id="spotifyFloat">
+<div class="spotify-float visible" id="spotifyFloat">
   <div class="spotify-player" id="spotifyPlayer">
-    <!-- Injected on Start the Party click for autoplay -->
-    <div id="spotifyEmbed"></div>
+    <div id="spotifyEmbed">
+      <iframe src="https://open.spotify.com/embed/track/7rIovIsXE6kMn629b7kDig?utm_source=generator&theme=0" width="300" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="border-radius:14px;"></iframe>
+    </div>
   </div>
   <div class="spotify-toggle" id="spotifyToggle" onclick="togglePlayer()" title="Toggle music player">
     <span id="spotifyIcon">🎵</span>
@@ -463,14 +482,16 @@
       <div class="day-date">April 19</div>
     </div>
     <div class="event-card">
-      <div class="event-time">TBD</div>
+      <div class="event-time">12:00</div>
       <div class="event-body">
         <div class="event-emoji">🥐</div>
         <div class="event-info">
           <div class="event-name">Brunch</div>
-          <div class="event-venue">Location to be announced</div>
+          <div class="event-venue">Blumental</div>
           <span class="event-tag voluntary">Voluntary</span>
-          <div class="tbd-note">📬 More info coming soon</div>
+          <a class="map-link" href="https://maps.app.goo.gl/ZvdhgSjTyiwR2VBQ9" target="_blank" rel="noopener">
+            📍 Open in Google Maps
+          </a>
         </div>
       </div>
     </div>
@@ -489,6 +510,24 @@
       loading="lazy"
       style="border-radius:14px; max-width:500px;">
     </iframe>
+  </div>
+</section>
+
+<!-- Outfit Inspo -->
+<section class="song-section">
+  <div class="section-pre">👗 Outfit Inspo</div>
+  <h2>What to Wear</h2>
+  <p class="song-artist">Think disco, think sparkle, think fabulous</p>
+  <div style="margin-top:24px;">
+    <a href="https://pin.it/2aPl2cCMG" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:10px;
+              font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+              color:#fff;background:linear-gradient(135deg,var(--hot-pink),var(--purple));
+              border-radius:40px;padding:16px 40px;text-decoration:none;
+              box-shadow:0 0 30px rgba(255,45,120,.3),0 0 60px rgba(180,77,255,.15);
+              transition:transform .2s,box-shadow .2s;">
+      ✨ See the Mood Board on Pinterest →
+    </a>
   </div>
 </section>
 
@@ -515,16 +554,16 @@ window.addEventListener('resize', resize);
 
 const colors = ['#ff6b9d','#ffd700','#b44dff','#00d4ff','#ff2d78','#fff'];
 
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 80; i++) {
   lights.push({
     x: Math.random() * W, y: Math.random() * H,
-    r: Math.random() * 60 + 20,
+    r: Math.random() * 90 + 30,
     color: colors[Math.floor(Math.random() * colors.length)],
-    vx: (Math.random() - .5) * .4,
-    vy: (Math.random() - .5) * .3,
-    alpha: Math.random() * .08 + .02,
+    vx: (Math.random() - .5) * .6,
+    vy: (Math.random() - .5) * .5,
+    alpha: Math.random() * .12 + .03,
     pulse: Math.random() * Math.PI * 2,
-    pulseSpeed: Math.random() * .02 + .005
+    pulseSpeed: Math.random() * .03 + .008
   });
 }
 
@@ -552,34 +591,46 @@ function drawLights() {
 }
 drawLights();
 
-// ── Floating sparkle particles ──
+// ── Floating sparkle particles (bigger, more frequent) ──
 function createSparkle() {
   const s = document.createElement('div');
   s.className = 'sparkle';
   s.style.left = Math.random() * 100 + '%';
-  s.style.background = colors[Math.floor(Math.random() * colors.length)];
-  s.style.width = s.style.height = (Math.random() * 4 + 2) + 'px';
-  s.style.animationDuration = (Math.random() * 8 + 6) + 's';
-  s.style.animationDelay = (Math.random() * 4) + 's';
-  s.style.boxShadow = `0 0 ${Math.random()*6+3}px ${s.style.background}`;
+  const c = colors[Math.floor(Math.random() * colors.length)];
+  s.style.background = c;
+  const size = (Math.random() * 6 + 2) + 'px';
+  s.style.width = s.style.height = size;
+  s.style.animationDuration = (Math.random() * 7 + 5) + 's';
+  s.style.animationDelay = (Math.random() * 2) + 's';
+  s.style.boxShadow = `0 0 ${Math.random()*10+4}px ${c}, 0 0 ${Math.random()*20+8}px ${c}`;
   document.body.appendChild(s);
-  setTimeout(() => s.remove(), 16000);
+  setTimeout(() => s.remove(), 14000);
 }
-setInterval(createSparkle, 400);
-for (let i = 0; i < 15; i++) setTimeout(createSparkle, i * 200);
+setInterval(createSparkle, 180);
+for (let i = 0; i < 25; i++) setTimeout(createSparkle, i * 120);
+
+// ── Twinkling Starfield (fixed position stars that blink) ──
+function createStarfield() {
+  const starColors = ['#fff','#ffd700','#ff6b9d','#b44dff','#00d4ff','#fff5f7'];
+  for (let i = 0; i < 60; i++) {
+    const star = document.createElement('div');
+    star.className = 'star' + (Math.random() > .6 ? ' cross' : '');
+    const size = (Math.random() * 4 + 1) + 'px';
+    star.style.width = star.style.height = size;
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    const c = starColors[Math.floor(Math.random() * starColors.length)];
+    star.style.background = c;
+    star.style.boxShadow = `0 0 ${Math.random()*6+2}px ${c}`;
+    star.style.animationDuration = (Math.random() * 3 + 1.5) + 's';
+    star.style.animationDelay = (Math.random() * 4) + 's';
+    document.body.appendChild(star);
+  }
+}
+createStarfield();
 
 // ── Spotify Player Controls ──
 let playerVisible = true;
-
-function startParty() {
-  document.getElementById('splash').classList.add('hidden');
-  document.getElementById('spotifyFloat').classList.add('visible');
-
-  // Inject Spotify iframe on user click so autoplay works
-  const spotifyUrl = 'https://open.spotify.com/embed/track/7rIovIsXE6kMn629b7kDig?utm_source=generator&theme=0&autoplay=1';
-  const embed = document.getElementById('spotifyEmbed');
-  embed.innerHTML = '<iframe src="' + spotifyUrl + '" width="300" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" style="border-radius:14px;"></iframe>';
-}
 
 function togglePlayer() {
   const player = document.getElementById('spotifyPlayer');
